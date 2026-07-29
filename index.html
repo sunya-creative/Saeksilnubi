@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>색실누비 Saeksilnubi</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <!-- 비밀번호 잠금 화면 -->
+    <div id="lock-screen" style="
+        position: fixed; inset: 0; z-index: 99999;
+        background: #ffffff;
+        display: flex; align-items: center; justify-content: center;
+        font-family: 'Pretendard', -apple-system, sans-serif;
+        transition: opacity 0.4s ease;
+    ">
+        <div style="text-align: center;">
+            <input id="lock-password" type="password" placeholder="password" autocomplete="off" style="
+                width: 200px; height: 44px; border: 1px solid #d5cec4; border-radius: 9999px;
+                background: #ffffff; color: #3d3a34; font-size: 0.88rem;
+                text-align: center; outline: none; padding: 0 16px;
+                font-family: inherit; transition: border-color 0.2s;
+            " />
+            <div id="lock-error" style="
+                height: 20px; margin-top: 6px;
+                font-size: 0.7rem; color: #c45050; text-align: center;
+                opacity: 0; transition: opacity 0.3s;
+            "></div>
+            <a href="https://www.instagram.com/thread.after.thread" target="_blank" rel="noopener noreferrer" style="
+                display: inline-block; margin-top: 4px;
+                font-size: 0.7rem; color: #a09a90; text-decoration: none;
+                letter-spacing: 0.01em; transition: color 0.2s;
+            " onmouseover="this.style.color='#7a7568'" onmouseout="this.style.color='#a09a90'">@thread.after.thread</a>
+        </div>
+    </div>
+
+        <!-- 사용방법 가이드 버튼 (화면 정중앙 상단 고정, 지우개/전체삭제와 동일한 btn-tool 디자인) -->
+        <div style="
+            position: fixed; top: 12px; left: 50%; transform: translateX(-50%); z-index: 1000;
+        ">
+            <button id="btn-open-guide" class="btn-tool" style="
+                height: 32px; min-height: 32px; font-size: 0.78rem; padding: 4px 14px;
+                display: flex; align-items: center; justify-content: center; gap: 4px;
+                color: var(--text-primary); font-weight: 600; cursor: pointer;
+            " title="사용방법">
+                <span>사용방법 📖</span>
+            </button>
+        </div>
+
+        <!-- 인스타그램 링크 (우상단 고정) -->
+        <div style="
+            position: fixed; top: 12px; right: 16px; z-index: 1000;
+            font-size: 0.82rem; color: #a09a90;
+            font-family: 'Pretendard', -apple-system, sans-serif;
+        "><span>문의사항(DM) : </span><a id="instagram-link" href="https://www.instagram.com/thread.after.thread" target="_blank" rel="noopener noreferrer" style="
+            color: #a09a90; text-decoration: none; transition: color 0.2s;
+        " onmouseover="this.style.color='#7a7568'" onmouseout="this.style.color='#a09a90'">@thread.after.thread</a></div>
+
+        <!-- Mobile Toggle Button -->
+        <button id="mobile-left-toggle" class="btn-mobile-toggle" style="left: 16px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+        <button id="mobile-right-toggle" class="btn-mobile-toggle" style="right: 16px; left: auto;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+        </button>
+
+        <!-- Left Sidebar: Config & Sketch Tools -->
+        <aside id="left-sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <div>
+                    <h1>색실누비</h1>
+                    <div class="subtitle">Saeksilnubi Pattern Studio</div>
+                </div>
+            </div>
+            
+            <div class="sidebar-content">
+                <!-- 원단 설정 -->
+                <div class="control-group">
+                    <h3>[원단설정]</h3>
+                    <div class="row-inputs">
+                        <div class="input-wrapper">
+                            <label for="canvas-width">가로 (cm)</label>
+                            <input type="number" id="canvas-width" value="16" min="5" max="60" step="1">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="canvas-height">세로 (cm)</label>
+                            <input type="number" id="canvas-height" value="10" min="5" max="60" step="1">
+                        </div>
+                    </div>
+                    <div class="input-wrapper">
+                        <div id="fabric-color-card" class="layer-item" style="background-color: #fcf6f5; color: #3d3a34; cursor: pointer; position: relative; font-weight: 500; transition: background-color 0.2s; display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; width: 100%; box-sizing: border-box;">
+                            <div class="layer-info">
+                                <span>원단 색상</span>
+                            </div>
+                            <span class="change-btn" style="font-size: 0.75rem; opacity: 0.8; font-weight: 400;">변경</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 도안 그리기 -->
+                <div class="control-group" style="margin-top: 30px;">
+                    <h3>[도안 그리기]</h3>
+                    
+                    <!-- 중심선 그리기 -->
+                    <div style="margin-top: 0; padding: 0; background-color: transparent; display: flex; flex-direction: column; gap: 8px;">
+                        <div style="font-size: 0.75rem; font-weight: 600; color: var(--text-secondary);">중심선 그리기</div>
+                        <div class="row-inputs" style="gap: 6px; align-items: center;">
+                            <div class="input-wrapper" style="flex: 2;">
+                                <input type="number" id="precise-length" value="5" min="0.5" max="50" step="0.5" style="padding: 6px 8px; font-size: 0.8rem;">
+                            </div>
+                            <div style="font-size: 0.75rem; color: var(--text-secondary);">cm</div>
+                            <div class="input-wrapper" style="flex: 3;">
+                                <select id="precise-angle" style="padding: 6px 8px; font-size: 0.8rem; height: 32px;">
+                                    <option value="0">수평 (0°)</option>
+                                    <option value="90">수직 (90°)</option>
+                                    <option value="45">대각선 (45°)</option>
+                                    <option value="135">대각선 (135°)</option>
+                                </select>
+                            </div>
+                            <button id="btn-draw-precise" class="btn-primary" style="padding: 8px 10px; font-size: 0.75rem; width: auto; box-shadow: none; white-space: nowrap; height: 32px; display: flex; align-items: center;">
+                                추가
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="tool-grid" style="margin-top: 12px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px;">
+                        <button id="tool-line" class="btn-tool active" title="직선 그리기">
+                            직선
+                        </button>
+                        <button id="tool-pencil" class="btn-tool" title="자유곡선 그리기">
+                            자유곡선
+                        </button>
+                    </div>
+                    
+                    <!-- 스냅 및 대칭 토글 그룹 -->
+                    <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
+                        <div style="display: flex; align-items: center; justify-content: justify; padding: 0 4px;">
+                            <label for="snap-hv" style="font-size: 0.82rem; color: var(--text-secondary); width: 100%;">직선 바르게 그리기</label>
+                            <input type="checkbox" id="snap-hv" checked style="width: 18px; height: 18px; cursor: pointer; accent-color: var(--accent-color);">
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: justify; padding: 0 4px;">
+                            <label for="symmetry-enable" style="font-size: 0.82rem; color: var(--text-secondary); width: 100%;">방사 대칭으로 그리기</label>
+                            <input type="checkbox" id="symmetry-enable" style="width: 18px; height: 18px; cursor: pointer; accent-color: var(--accent-color);">
+                        </div>
+                        <div class="input-wrapper" id="symmetry-count-wrapper" style="padding: 0 4px; margin-top: 2px;">
+                            <label for="symmetry-count" style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 4px; display: block;">대칭 축 개수</label>
+                            <select id="symmetry-count" style="width: 100%; padding: 6px 8px; font-size: 0.8rem; height: 32px;">
+                                <option value="2">2개</option>
+                                <option value="3">3개</option>
+                                <option value="4">4개</option>
+                                <option value="5">5개</option>
+                                <option value="6" selected>6개</option>
+                                <option value="7">7개</option>
+                                <option value="8">8개</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- 지우개 및 전체삭제 버튼 -->
+                    <div class="tool-grid" style="margin-top: 10px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px;">
+                        <button id="tool-eraser" class="btn-tool" style="height: 32px; min-height: 32px; font-size: 0.78rem; padding: 4px 8px;" title="지우개">
+                            지우개
+                        </button>
+                        <button id="tool-clear" class="btn-tool" style="height: 32px; min-height: 32px; font-size: 0.78rem; padding: 4px 8px; color: var(--accent-color);" title="전체 지우기">
+                            전체삭제
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 간격 설정 및 도안생성 버튼 (좌우 가로 정렬 배치) -->
+                <div class="control-group" style="margin-top: 20px;">
+                    <h3>[도안 생성]</h3>
+                    <div class="row-inputs" style="gap: 8px; align-items: center; width: 100%;">
+                        <div class="input-wrapper" style="flex: 1; margin: 0;">
+                            <select id="offset-step" style="width: 100%; height: 44px; box-sizing: border-box; font-size: 0.82rem; padding: 6px 8px;">
+                                <option value="1.0">1.0mm</option>
+                                <option value="1.5">1.5mm</option>
+                                <option value="2.0">2.0mm</option>
+                                <option value="2.5" selected>2.5mm</option>
+                                <option value="3.0">3.0mm</option>
+                                <option value="3.5">3.5mm</option>
+                                <option value="4.0">4.0mm</option>
+                                <option value="4.5">4.5mm</option>
+                                <option value="5.0">5.0mm</option>
+                            </select>
+                        </div>
+                        <button id="btn-generate-offset" class="btn-primary" style="flex: 1; height: 44px; margin: 0; font-size: 0.88rem; display: flex; align-items: center; justify-content: center; padding: 12px 10px;">
+                            도안생성
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 스케치 실행취소/다시실행 -->
+                <div style="margin-top: auto; padding-top: 10px;">
+                    <div class="row-inputs" style="gap: 6px;">
+                        <button id="btn-undo" class="btn-tool" style="padding: 12px 10px; font-size: 0.88rem; flex: 1; height: 44px; font-weight: 600; justify-content: center;" title="되돌리기">실행취소</button>
+                        <button id="btn-redo" class="btn-tool" style="padding: 12px 10px; font-size: 0.88rem; flex: 1; height: 44px; font-weight: 600; justify-content: center;" title="다시실행">다시실행</button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Center Work Area -->
+        <main class="workspace">
+            <div id="canvas-container" class="canvas-container">
+                <canvas id="drawing-canvas"></canvas>
+            </div>
+
+            <!-- Zoom Controls -->
+            <div class="zoom-controls">
+                <button id="btn-zoom-out" class="btn-zoom" title="축소">-</button>
+                <div id="zoom-level" class="zoom-level">100%</div>
+                <button id="btn-zoom-in" class="btn-zoom" title="확대">+</button>
+                <button id="btn-zoom-reset" class="btn-zoom" title="크기 맞춤" style="font-size: 0.75rem;">맞춤</button>
+            </div>
+        </main>
+
+        <!-- Right Sidebar: Pattern Settings & Layer Colors -->
+        <aside id="right-sidebar" class="sidebar right-sidebar">
+            <div class="sidebar-content" style="padding-top: 99px; height: 100%; box-sizing: border-box; display: flex; flex-direction: column;">
+
+                <!-- 선별 컬러 커스텀 -->
+                <div class="control-group" style="flex: 1; display: flex; flex-direction: column; min-height: 0;">
+                    <!-- 일괄 변경 / 랜덤 배색 -->
+                    <div style="display: flex; gap: 6px; margin-bottom: 24px; padding-bottom: 0; flex-shrink: 0;">
+                        <button id="btn-color-all" style="padding: 0; font-size: 0.88rem; flex: 1; height: 44px; display: flex; align-items: center; justify-content: center; margin: 0; border-radius: 9999px; border: none; cursor: pointer; background-color: #9e2a2b; color: #ffffff; font-weight: 600; letter-spacing: 0.02em;">일괄 변경</button>
+                        <button id="btn-color-random" style="padding: 0; font-size: 0.88rem; flex: 1; height: 44px; display: flex; align-items: center; justify-content: center; margin: 0; border-radius: 9999px; border: none; cursor: pointer; background-color: #5a6650; color: #ffffff; font-weight: 600; letter-spacing: 0.02em;">랜덤 배색</button>
+                    </div>
+
+                    <!-- 방 별로 색상지정 (신규 기능) -->
+                    <div class="region-coloring-box" style="margin-bottom: 24px; padding-bottom: 0; flex-shrink: 0;">
+                        <h3 style="margin-bottom: 10px;">[방 별로 색상지정]</h3>
+                        <div id="region-info-text" style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 8px;">
+                            도안 생성 시 방 개수가 자동 인식됩니다.
+                        </div>
+                        <div id="region-colors-wrapper" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; max-height: 140px; overflow-y: auto; padding-right: 2px;">
+                            <!-- JS에서 동적 생성 -->
+                        </div>
+                    </div>
+
+                    <!-- 패턴으로 색상지정 -->
+                    <div class="pattern-coloring-box" style="margin-bottom: 24px; padding-bottom: 0; flex-shrink: 0;">
+                        <h3 style="margin-bottom: 10px;">[패턴으로 색상지정]</h3>
+                        
+                        <!-- 사용할 실 개수 토글 (2,3,4,5색으로 확장) -->
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 4px; margin-bottom: 10px; padding: 0 4px; flex-wrap: nowrap; width: 100%; box-sizing: border-box;">
+                            <span style="font-size: 0.72rem; color: var(--text-secondary); font-weight: 600; white-space: nowrap; flex-shrink: 0;">사용할 실 개수</span>
+                            <div style="display: flex; gap: 3px; flex-wrap: nowrap;">
+                                <button id="btn-thread-count-2" class="btn-secondary active" style="padding: 2px 6px; font-size: 0.68rem; height: 22px; border-radius: 4px; font-weight: 600; white-space: nowrap; cursor: pointer;">2색</button>
+                                <button id="btn-thread-count-3" class="btn-secondary" style="padding: 2px 6px; font-size: 0.68rem; height: 22px; border-radius: 4px; font-weight: 600; white-space: nowrap; cursor: pointer;">3색</button>
+                                <button id="btn-thread-count-4" class="btn-secondary" style="padding: 2px 6px; font-size: 0.68rem; height: 22px; border-radius: 4px; font-weight: 600; white-space: nowrap; cursor: pointer;">4색</button>
+                                <button id="btn-thread-count-5" class="btn-secondary" style="padding: 2px 6px; font-size: 0.68rem; height: 22px; border-radius: 4px; font-weight: 600; white-space: nowrap; cursor: pointer;">5색</button>
+                            </div>
+                        </div>
+                        
+                        <!-- 실 색상 카드 버튼 (5색까지 확장, 가로 배치 최적화) -->
+                        <div id="thread-colors-wrapper" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px; margin-bottom: 10px;">
+                            <div id="thread-color-a" class="layer-item" style="background-color: #9e2a2b; color: #ffffff; cursor: pointer; flex: 1; min-width: 65px; padding: 8px 12px; font-size: 0.72rem; display: flex; justify-content: space-between; align-items: center; transition: background-color 0.2s; box-sizing: border-box;">
+                                <span style="font-weight: 600;">실 A</span>
+                                <span style="font-size: 0.6rem; opacity: 0.75;">변경</span>
+                            </div>
+                            <div id="thread-color-b" class="layer-item" style="background-color: #c3bfd8; color: #3d3a34; cursor: pointer; flex: 1; min-width: 65px; padding: 8px 12px; font-size: 0.72rem; display: flex; justify-content: space-between; align-items: center; transition: background-color 0.2s; box-sizing: border-box;">
+                                <span style="font-weight: 600;">실 B</span>
+                                <span style="font-size: 0.6rem; opacity: 0.75;">변경</span>
+                            </div>
+                            <div id="thread-color-c" class="layer-item" style="background-color: #3a5a40; color: #ffffff; cursor: pointer; flex: 1; min-width: 65px; padding: 8px 12px; font-size: 0.72rem; display: none; justify-content: space-between; align-items: center; transition: background-color 0.2s; box-sizing: border-box;">
+                                <span style="font-weight: 600;">실 C</span>
+                                <span style="font-size: 0.6rem; opacity: 0.75;">변경</span>
+                            </div>
+                            <div id="thread-color-d" class="layer-item" style="background-color: #3a506b; color: #ffffff; cursor: pointer; flex: 1; min-width: 65px; padding: 8px 12px; font-size: 0.72rem; display: none; justify-content: space-between; align-items: center; transition: background-color 0.2s; box-sizing: border-box;">
+                                <span style="font-weight: 600;">실 D</span>
+                                <span style="font-size: 0.6rem; opacity: 0.75;">변경</span>
+                            </div>
+                            <div id="thread-color-e" class="layer-item" style="background-color: #d9a05b; color: #ffffff; cursor: pointer; flex: 1; min-width: 65px; padding: 8px 12px; font-size: 0.72rem; display: none; justify-content: space-between; align-items: center; transition: background-color 0.2s; box-sizing: border-box;">
+                                <span style="font-weight: 600;">실 E</span>
+                                <span style="font-size: 0.6rem; opacity: 0.75;">변경</span>
+                            </div>
+                        </div>
+
+                        <!-- 패턴 선택 및 적용 (가로 배치) -->
+                        <div class="row-inputs" style="gap: 6px; align-items: center; width: 100%;">
+                            <div class="input-wrapper" style="flex: 1.2; margin: 0;">
+                                <select id="pattern-rule-select" style="width: 100%; height: 44px; font-size: 0.75rem; padding: 4px 6px; border-radius: var(--radius); border: 1px solid var(--input-border); background-color: var(--input-bg);">
+                                    <option value="A-B">A - B (교차)</option>
+                                    <option value="A-B-B">A - B - B</option>
+                                    <option value="A-A-B">A - A - B</option>
+                                    <option value="A-B-B-B">A - B - B - B</option>
+                                </select>
+                            </div>
+                            <button id="btn-apply-pattern" class="btn-primary" style="flex: 1; height: 44px; font-size: 0.88rem; display: flex; align-items: center; justify-content: center; padding: 12px 10px; margin: 0;">
+                                패턴적용
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 한줄씩 색상지정 -->
+                    <div class="individual-coloring-box" style="display: flex; flex-direction: column; gap: 8px; flex: 1; min-height: 0;">
+                        <h3 style="margin-bottom: 2px;">[한줄씩 색상지정]</h3>
+                        <div id="layer-list-container" class="layer-list" style="flex: 1; min-height: 0; overflow-y: auto;">
+                            <!-- JS로 동적 생성 -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 내보내기 -->
+                <div style="flex-shrink: 0; padding-top: 10px; margin-top: auto;">
+                    <button id="btn-export-png" class="btn-primary" style="width: 100%; font-size: 0.88rem; padding: 12px 10px;">
+                        PNG 저장
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Loading Overlay -->
+        <div id="loading-overlay" class="loading-overlay">
+            <div class="spinner"></div>
+            <div style="font-family: var(--font-serif); font-size: 1.1rem; letter-spacing: 0.5px;">오프셋 도안을 계산하는 중입니다...</div>
+            <div style="font-size: 0.8rem; opacity: 0.8;">대지 크기와 선 개수에 따라 수 초가 걸릴 수 있습니다.</div>
+        </div>
+    </div>
+
+    <!-- 커스텀 컬러 피커 레이어 (적용 버튼 유, RGB 제거) -->
+    <div id="custom-color-picker" style="display: none; position: fixed; z-index: 100000; background: #ffffff; border: 1px solid var(--panel-border); border-radius: var(--radius); padding: 12px; box-shadow: 0 10px 30px rgba(61, 58, 52, 0.25), 0 2px 8px rgba(61, 58, 52, 0.1); width: 220px; flex-direction: column; gap: 10px; font-family: var(--font-sans);">
+        <div style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; margin-bottom: 2px;">추천 원단/선 색상</div>
+        <div id="picker-presets" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px;">
+            <!-- JS에서 동적 추천 팔레트 10개 삽입 -->
+        </div>
+        <div style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; margin-top: 4px;">색상 스펙트럼</div>
+        <!-- Hue 직접 조절 슬라이더 -->
+        <input type="range" id="picker-hue" min="0" max="360" value="0" style="width: 100%; height: 10px; border-radius: 5px; appearance: none; outline: none; background: linear-gradient(to right, #ff0000 0%, #ffff00 17%, #00ff00 33%, #00ffff 50%, #0000ff 67%, #ff00ff 83%, #ff0000 100%); cursor: pointer;">
+        <!-- 명도/채도 직접 조절 슬라이더 -->
+        <input type="range" id="picker-lightness" min="10" max="95" value="50" style="width: 100%; height: 10px; border-radius: 5px; appearance: none; outline: none; background: linear-gradient(to right, #000000 0%, #777777 50%, #ffffff 100%); cursor: pointer; margin-top: -4px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 4px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <div id="picker-preview" style="width: 22px; height: 22px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.15); background-color: #9e2a2b;"></div>
+                <span id="picker-val-text" style="font-size: 0.8rem; font-family: monospace; color: var(--text-secondary); display: none;">#9e2a2b</span>
+            </div>
+            <button id="picker-apply-btn" class="btn-primary" style="padding: 6px 14px; font-size: 0.75rem; box-shadow: none; width: auto; height: 28px; display: flex; align-items: center; justify-content: center; margin: 0;">
+                적용
+            </button>
+        </div>
+    </div>
+
+    <!-- 비밀번호 검증 스크립트 -->
+    <script>
+    (function() {
+        const lockScreen = document.getElementById('lock-screen');
+        const lockInput = document.getElementById('lock-password');
+        const lockError = document.getElementById('lock-error');
+        const VALID_PASSWORDS = ['색실누비', 'tortlfsnql'];
+
+        // 이미 인증된 세션이면 즉시 잠금 해제
+        if (sessionStorage.getItem('saeksilnubi_auth') === 'true') {
+            lockScreen.style.display = 'none';
+        } else {
+            lockInput.focus();
+        }
+
+        function tryUnlock() {
+            const val = lockInput.value.trim();
+            if (VALID_PASSWORDS.includes(val)) {
+                sessionStorage.setItem('saeksilnubi_auth', 'true');
+                lockScreen.style.opacity = '0';
+                setTimeout(() => { lockScreen.style.display = 'none'; }, 400);
+            } else if (val.length > 0) {
+                lockError.textContent = '비밀번호가 올바르지 않습니다';
+                lockError.style.opacity = '1';
+                lockInput.style.borderColor = '#c45050';
+                // 흔들림 애니메이션
+                lockInput.style.animation = 'none';
+                lockInput.offsetHeight; // reflow
+                lockInput.style.animation = 'shake 0.4s ease';
+                setTimeout(() => {
+                    lockError.style.opacity = '0';
+                    lockInput.style.borderColor = '#d5cec4';
+                }, 2000);
+            }
+        }
+
+        lockInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') tryUnlock();
+        });
+    })();
+    </script>
+
+    <style>
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        20% { transform: translateX(-6px); }
+        40% { transform: translateX(6px); }
+        60% { transform: translateX(-4px); }
+        80% { transform: translateX(4px); }
+    }
+    </style>
+
+    <!-- 사용방법 가이드 모달 팝업 (배경 투명, 라운드 0, 원문 100% 적용) -->
+    <div id="guide-modal" style="display: none; position: fixed; inset: 0; z-index: 999999; background: rgba(0, 0, 0, 0.15); align-items: center; justify-content: center; padding: 20px;">
+        <div style="background: #ffffff; border-radius: 0; width: 100%; max-width: 680px; max-height: 85vh; overflow-y: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.15); padding: 28px 24px; position: relative; font-family: var(--font-sans); border: 1px solid #d5cec4;">
+            <!-- 닫기 버튼 -->
+            <button id="btn-close-guide-x" style="position: absolute; top: 18px; right: 20px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #777;">✕</button>
+
+            <h2 style="font-family: var(--font-serif); color: var(--accent-color); font-size: 1.35rem; margin-bottom: 8px; text-align: center;">🧵 색실누비 도안 만들기 순서</h2>
+            <div style="text-align: center; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.5;">
+                [1단계] 왼쪽 화면에서 밑그림 그리기<br>
+                [2단계] 오른쪽 화면에서 실 색상 입히기<br>
+                [3단계] 완성된 도안 저장하기
+            </div>
+
+            <!-- 1단계 -->
+            <div style="background: #faf8f5; border-radius: 0; padding: 18px; margin-bottom: 16px; border: 1px solid #eee6dd;">
+                <h3 style="font-size: 0.98rem; color: #9e2a2b; font-weight: 700; margin-bottom: 12px; margin-top: 0;">📍 [1단계] 왼쪽 화면에서 밑그림 그리기</h3>
+                
+                <div style="font-size: 0.88rem; line-height: 1.65; color: #3d3a34; display: flex; flex-direction: column; gap: 12px; letter-spacing: -0.2px;">
+                    <div>
+                        <strong>1. 원단 설정 (바탕 크기와 색 정하기)</strong><br>
+                        • <strong>원단 크기</strong>: 원하시는 가로, 세로 길이를 숫자로 입력해 주세요.<br>
+                        • <strong>원단 색상</strong>: <strong>[원단 색상]</strong> 버튼을 누르면 추천 색상 중 마음에 드는 색을 고르실 수 있습니다. 아래 색상 띠를 움직여 직접 조절하실 수도 있습니다.
+                    </div>
+
+                    <div>
+                        <strong>2. 도안 그리기</strong><br>
+                        • <strong>중심선 그리기</strong>: 원단 정중앙에서부터 선을 그릴때 사용합니다. 길이를 적고 방향(수평, 수직, 대각선)을 선택한 후 <strong>[추가]</strong>를 누르면 생성됩니다.<br>
+                        • <strong>직선 / 자유곡선</strong>: <strong>[직선]</strong>은 반듯한 선, <strong>[자유곡선]</strong>은 부드러운 곡선을 그릴 수 있습니다.<br>
+                        • <strong>직선 바르게 그리기</strong>: 이 상자에 체크(v)하시면, 가로·세로·대각선이 반듯하게 그려집니다.<br>
+                        • <strong>방사 대칭으로 그리기</strong>: 체크(v) 후 선 개수를 고르면, 꽃 모양이나 별 모양처럼 등간격의 선을 동시에 그릴 수 있습니다.<br>
+                        • <strong>지우개 / 전체삭제</strong>: 잘못 그린 부분은 <strong>[지우개]</strong>로 부분적으로 지우거나, <strong>[전체삭제]</strong>를 눌러 처음부터 다시 그리실 수 있습니다.
+                    </div>
+
+                    <div>
+                        <strong>3. 도안 생성 (누빔 간격 만들기)</strong><br>
+                        그림을 다 그리셨다면, 누빔 줄 사이의 <strong>[간격(mm)]</strong>을 고른 후 <strong>[도안생성]</strong> 버튼을 눌러주세요.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2단계 -->
+            <div style="background: #faf8f5; border-radius: 0; padding: 18px; margin-bottom: 16px; border: 1px solid #eee6dd;">
+                <h3 style="font-size: 0.98rem; color: #5a6650; font-weight: 700; margin-bottom: 12px; margin-top: 0;">📍 [2단계] 오른쪽 화면에서 실 색상 입히기</h3>
+                <div style="font-size: 0.88rem; line-height: 1.65; color: #3d3a34; display: flex; flex-direction: column; gap: 8px; letter-spacing: -0.2px;">
+                    <div>• <strong>일괄 변경</strong>: <strong>[일괄 변경]</strong> 버튼을 누르면 모든 누빔실 색을 한 번에 동일하게 바꿀 수 있습니다.</div>
+                    <div>• <strong>랜덤 배색</strong>: <strong>[랜덤 배색]</strong> 버튼을 누를 때마다 색상이 바뀌어 다양한 조합을 둘러볼 수 있습니다.</div>
+                    <div>• <strong>방 별로 색상지정</strong>: 선으로 나누어진 칸(방)마다 색을 다르게 지정할 수 있습니다. 12시(위쪽) 방향부터 시계방향 순서대로 각 방의 색을 정하실 수 있습니다.</div>
+                    <div>
+                        • <strong>패턴으로 색상지정</strong>:<br>
+                        사용할 실 개수(2색~5색)를 정하고, 각 실의 색을 지정합니다.<br>
+                        아래 메뉴에서 색이 번갈아 나오는 순서(예: A-B 교차)를 고른 후 <strong>[패턴적용]</strong>을 누르시면 규칙적으로 실 색이 입혀집니다.
+                    </div>
+                    <div>• <strong>한 줄씩 색상지정</strong>: 가장 안쪽 누빔선부터 한 줄 한 줄 원하시는 색으로 변경 가능합니다.</div>
+                </div>
+            </div>
+
+            <!-- 3단계 -->
+            <div style="background: #faf8f5; border-radius: 0; padding: 18px; margin-bottom: 16px; border: 1px solid #eee6dd;">
+                <h3 style="font-size: 0.98rem; color: #3a506b; font-weight: 700; margin-bottom: 8px; margin-top: 0;">📍 [3단계] 완성된 도안 저장하기</h3>
+                <div style="font-size: 0.88rem; color: #3d3a34; letter-spacing: -0.2px;">
+                    도안이 완성되면, 오른쪽 맨 아래 <strong>[PNG 저장]</strong> 버튼을 눌러 이미지 파일로 저장할 수 있습니다.
+                </div>
+            </div>
+
+            <!-- 참고 안내 -->
+            <div style="background: #fff8e7; border: 1px solid #ffe8b3; border-radius: 0; padding: 12px 16px; font-size: 0.82rem; color: #8a6d3b;">
+                💡 <strong>참고 안내</strong><br>
+                화면에 그릴 때 대각선은 조금 더 진하게 보이고, 가로·세로(수직·수평)선은 살짝 연하게 보일 수 있습니다.
+            </div>
+
+            <!-- 닫기 버튼 -->
+            <div style="text-align: center; margin-top: 24px;">
+                <button id="btn-close-guide-btn" class="btn-primary" style="padding: 10px 32px; font-size: 0.88rem; border-radius: 0;">확인 및 닫기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="./app.js"></script>
+</body>
+</html>

@@ -1483,7 +1483,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     btnRedo.addEventListener('click', () => {
-        manager.redo();
+        if (confirm('처음 만든 원단 상태로 돌아가시겠습니까? 모든 작업 내용이 초기화됩니다.')) {
+            // 원단 설정 초기값으로 복원
+            canvasWidthInput.value = 16;
+            canvasHeightInput.value = 10;
+            updateCanvasSize();
+            updateFabricCard('#fcf6f5');
+            
+            // 그리기 상태 및 도구 초기화
+            manager.clear();
+            manager.regions = [];
+            manager.getRegionAtPixel = null;
+            
+            tools.forEach(t => t.btn.classList.remove('active'));
+            toolLine.classList.add('active');
+            manager.setTool('line');
+            
+            snapHVInput.checked = true;
+            manager.snapHV = true;
+            
+            symmetryEnable.checked = false;
+            updateSymmetryConfig();
+            
+            // UI 업데이트
+            updateLayerListUI();
+            updateRegionListUI();
+        }
     });
 
     // 수직/수평 그리기 스냅 체크박스 이벤트 바인딩 및 초기화

@@ -1390,15 +1390,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentZoom = 1.0;
 
-    mobileLeftToggle.addEventListener('click', () => {
+    mobileLeftToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
         leftSidebar.classList.toggle('active');
         rightSidebar.classList.remove('active');
     });
 
-    mobileRightToggle.addEventListener('click', () => {
+    mobileRightToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
         rightSidebar.classList.toggle('active');
         leftSidebar.classList.remove('active');
     });
+
+    // 모바일 사이드바 내부 닫기 버튼 이벤트 바인딩
+    document.querySelectorAll('.mobile-close-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            leftSidebar.classList.remove('active');
+            rightSidebar.classList.remove('active');
+        });
+    });
+
+    // 모바일 사이드바 외부 영역(캔버스 영역) 클릭 시 닫기
+    const workspaceEl = document.querySelector('.workspace');
+    if (workspaceEl) {
+        workspaceEl.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                leftSidebar.classList.remove('active');
+                rightSidebar.classList.remove('active');
+            }
+        });
+    }
 
     function updateCanvasSize() {
         const w = parseInt(canvasWidthInput.value) || 20;
@@ -1887,10 +1909,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnCloseGuideX = document.getElementById('btn-close-guide-x');
     const btnCloseGuideBtn = document.getElementById('btn-close-guide-btn');
 
-    if (btnOpenGuide && guideModal) {
-        btnOpenGuide.addEventListener('click', () => {
+    const mobileGuideBtn = document.getElementById('mobile-guide-btn');
+    if (guideModal) {
+        const openGuide = () => {
             guideModal.style.display = 'flex';
-        });
+        };
+        if (btnOpenGuide) btnOpenGuide.addEventListener('click', openGuide);
+        if (mobileGuideBtn) mobileGuideBtn.addEventListener('click', openGuide);
     }
 
     const closeGuide = () => {

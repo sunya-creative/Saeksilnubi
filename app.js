@@ -2082,26 +2082,32 @@ document.addEventListener('DOMContentLoaded', () => {
     btnZoomReset.addEventListener('click', () => {
         fitCanvasToScreen();
     });
-
     function fitCanvasToScreen() {
-        const workspaceW = manager.container.parentElement.clientWidth - 80;
-        const workspaceH = manager.container.parentElement.clientHeight - 80;
+        const isMobile = window.innerWidth <= 768;
+        // On mobile, subtract a much smaller margin (e.g. 16px total) to let the canvas occupy ~92% of the space
+        const workspaceW = isMobile 
+            ? manager.container.parentElement.clientWidth - 16 
+            : manager.container.parentElement.clientWidth - 80;
+        const workspaceH = isMobile 
+            ? manager.container.parentElement.clientHeight - 16 
+            : manager.container.parentElement.clientHeight - 80;
+            
         const canvasW = manager.widthCm * manager.pixelScale;
         const canvasH = manager.heightCm * manager.pixelScale;
 
         const scaleW = workspaceW / canvasW;
         const scaleH = workspaceH / canvasH;
-        const optimalZoom = Math.min(scaleW, scaleH, 1.2);
+        
+        // On mobile, allow zoom up to 2.5 to fill screen, on desktop cap at 1.2
+        const maxZoom = isMobile ? 2.5 : 1.2;
+        const optimalZoom = Math.min(scaleW, scaleH, maxZoom);
 
         setZoomValue(optimalZoom);
     }
 
     window.addEventListener('resize', () => {
-        if (window.innerWidth > 768) {
-            fitCanvasToScreen();
-        }
+        fitCanvasToScreen();
     });
-
     if (btnExportSvg) {
         btnExportSvg.addEventListener('click', () => {
             if (!manager.offsetPaths || manager.offsetPaths.length === 0) {

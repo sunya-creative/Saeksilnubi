@@ -485,18 +485,37 @@ canvas {
         background-color: var(--panel-bg);
         border-bottom: 1px solid var(--panel-border);
         backdrop-filter: blur(10px);
-        padding: 10px 16px;
+        padding: 12px 16px;
         z-index: 100;
         width: 100%;
         box-sizing: border-box;
+        gap: 10px;
+    }
+    
+    .mobile-action-group {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        width: 100%;
+    }
+    
+    .mobile-info-group {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        gap: 12px;
     }
     
     .mobile-dm-link {
-        font-size: 0.75rem;
+        font-size: 0.72rem;
         color: var(--text-secondary);
-        text-align: center;
-        margin-bottom: 8px;
+        text-align: right;
         font-family: 'Pretendard', -apple-system, sans-serif;
+        flex-grow: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     
     .mobile-dm-link a {
@@ -505,28 +524,32 @@ canvas {
         font-weight: 500;
     }
     
-    .mobile-action-buttons {
-        display: flex;
-        justify-content: space-between;
-        gap: 8px;
-    }
-    
     .mobile-nav-btn {
-        flex: 1;
-        height: 38px;
         border-radius: var(--radius);
         border: 1px solid var(--panel-border);
         background-color: var(--input-bg);
         color: var(--text-primary);
-        font-size: 0.78rem;
-        font-weight: 600;
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 4px;
         transition: all 0.2s ease;
         box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+    
+    .mobile-action-group .mobile-nav-btn {
+        flex: 1;
+        height: 38px;
+        font-size: 0.82rem;
+        font-weight: 600;
+    }
+    
+    .mobile-info-group .mobile-nav-btn {
+        width: 90px;
+        height: 28px;
+        font-size: 0.72rem;
+        font-weight: 500;
+        flex-shrink: 0;
     }
     
     .mobile-nav-btn:active {
@@ -605,8 +628,14 @@ canvas {
     }
     
     .workspace {
+        flex: 1;
+        min-height: 0;
         height: auto;
-        padding: 16px;
+        padding: 8px;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     
     .zoom-controls {

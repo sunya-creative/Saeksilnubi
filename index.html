@@ -40,7 +40,7 @@
                 display: flex; align-items: center; justify-content: center; gap: 4px;
                 color: var(--text-primary); font-weight: 600; cursor: pointer;
             " title="사용방법">
-                <span>사용방법 📖</span>
+                <span>사용방법</span>
             </button>
         </div>
 
@@ -55,13 +55,17 @@
 
         <!-- Mobile Top Bar (visible only on mobile) -->
         <div class="mobile-top-bar">
-            <div class="mobile-dm-link">
-                <span>문의사항(DM) : </span><a href="https://www.instagram.com/thread.after.thread" target="_blank" rel="noopener noreferrer">@thread.after.thread</a>
+            <!-- Row 1: Main action buttons grouped together -->
+            <div class="mobile-action-group">
+                <button id="mobile-left-toggle" class="mobile-nav-btn">도안 그리기</button>
+                <button id="mobile-right-toggle" class="mobile-nav-btn">실 색상 지정</button>
             </div>
-            <div class="mobile-action-buttons">
-                <button id="mobile-left-toggle" class="mobile-nav-btn">✏️ 도안 그리기</button>
-                <button id="mobile-guide-btn" class="mobile-nav-btn">📖 사용방법</button>
-                <button id="mobile-right-toggle" class="mobile-nav-btn">🎨 실 색상</button>
+            <!-- Row 2: Info/Guide and DM link grouped together -->
+            <div class="mobile-info-group">
+                <button id="mobile-guide-btn" class="mobile-nav-btn">사용방법</button>
+                <div class="mobile-dm-link">
+                    <span>문의(DM): </span><a href="https://www.instagram.com/thread.after.thread" target="_blank" rel="noopener noreferrer">@thread.after.thread</a>
+                </div>
             </div>
         </div>
 
@@ -409,7 +413,7 @@
             <!-- 닫기 버튼 -->
             <button id="btn-close-guide-x" style="position: absolute; top: 18px; right: 20px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #777;">✕</button>
 
-            <h2 style="font-family: var(--font-serif); color: var(--accent-color); font-size: 1.35rem; margin-bottom: 8px; text-align: center;">🧵 색실누비 도안 만들기 순서</h2>
+            <h2 style="font-family: var(--font-serif); color: var(--accent-color); font-size: 1.35rem; margin-bottom: 8px; text-align: center;">색실누비 도안 만들기 순서</h2>
             <div style="text-align: center; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.5;">
                 [1단계] 왼쪽 화면에서 밑그림 그리기<br>
                 [2단계] 오른쪽 화면에서 실 색상 입히기<br>
@@ -418,7 +422,7 @@
 
             <!-- 1단계 -->
             <div style="background: #faf8f5; border-radius: 0; padding: 18px; margin-bottom: 16px; border: 1px solid #eee6dd;">
-                <h3 style="font-size: 0.98rem; color: #9e2a2b; font-weight: 700; margin-bottom: 12px; margin-top: 0;">📍 [1단계] 왼쪽 화면에서 밑그림 그리기</h3>
+                <h3 style="font-size: 0.98rem; color: #9e2a2b; font-weight: 700; margin-bottom: 12px; margin-top: 0;">[1단계] 왼쪽 화면에서 밑그림 그리기</h3>
                 
                 <div style="font-size: 0.88rem; line-height: 1.65; color: #3d3a34; display: flex; flex-direction: column; gap: 12px; letter-spacing: -0.2px;">
                     <div>
@@ -445,7 +449,7 @@
 
             <!-- 2단계 -->
             <div style="background: #faf8f5; border-radius: 0; padding: 18px; margin-bottom: 16px; border: 1px solid #eee6dd;">
-                <h3 style="font-size: 0.98rem; color: #5a6650; font-weight: 700; margin-bottom: 12px; margin-top: 0;">📍 [2단계] 오른쪽 화면에서 실 색상 입히기</h3>
+                <h3 style="font-size: 0.98rem; color: #5a6650; font-weight: 700; margin-bottom: 12px; margin-top: 0;">[2단계] 오른쪽 화면에서 실 색상 입히기</h3>
                 <div style="font-size: 0.88rem; line-height: 1.65; color: #3d3a34; display: flex; flex-direction: column; gap: 8px; letter-spacing: -0.2px;">
                     <div>• <strong>일괄 변경</strong>: <strong>[일괄 변경]</strong> 버튼을 누르면 모든 누빔실 색을 한 번에 동일하게 바꿀 수 있습니다.</div>
                     <div>• <strong>랜덤 배색</strong>: <strong>[랜덤 배색]</strong> 버튼을 누를 때마다 색상이 바뀌어 다양한 조합을 둘러볼 수 있습니다.</div>
@@ -461,7 +465,7 @@
 
             <!-- 3단계 -->
             <div style="background: #faf8f5; border-radius: 0; padding: 18px; margin-bottom: 16px; border: 1px solid #eee6dd;">
-                <h3 style="font-size: 0.98rem; color: #3a506b; font-weight: 700; margin-bottom: 8px; margin-top: 0;">📍 [3단계] 완성된 도안 저장하기</h3>
+                <h3 style="font-size: 0.98rem; color: #3a506b; font-weight: 700; margin-bottom: 8px; margin-top: 0;">[3단계] 완성된 도안 저장하기</h3>
                 <div style="font-size: 0.88rem; color: #3d3a34; letter-spacing: -0.2px;">
                     도안이 완성되면, 오른쪽 맨 아래 <strong>[PNG 저장]</strong> 버튼을 눌러 이미지 파일로 저장할 수 있습니다.
                 </div>
@@ -469,7 +473,7 @@
 
             <!-- 참고 안내 -->
             <div style="background: #fff8e7; border: 1px solid #ffe8b3; border-radius: 0; padding: 12px 16px; font-size: 0.82rem; color: #8a6d3b;">
-                💡 <strong>참고 안내</strong><br>
+                참고 안내<br>
                 화면에 그릴 때 대각선은 조금 더 진하게 보이고, 가로·세로(수직·수평)선은 살짝 연하게 보일 수 있습니다.
             </div>
 

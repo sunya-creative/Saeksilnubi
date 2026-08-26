@@ -568,7 +568,7 @@ canvas {
         position: fixed;
         left: 0;
         top: 0;
-        width: 320px;
+        width: 60%; /* Occupy up to 60% of screen width on mobile */
         height: 100%;
         transform: translateX(-100%);
         box-shadow: none; /* Disable shadow on mobile when inactive to prevent border lines */

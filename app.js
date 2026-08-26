@@ -1696,8 +1696,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('도안 생성 중 오류가 발생했습니다. 선의 양이 너무 많거나 계산 범위가 초과되었을 수 있습니다.');
             } finally {
                 loadingOverlay.style.display = 'none';
-                if (window.innerWidth < 768) {
-                    rightSidebar.classList.add('active');
+                if (window.innerWidth <= 768) {
+                    leftSidebar.classList.remove('active');
+                    rightSidebar.classList.remove('active');
                 }
             }
         }, 50);

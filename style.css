@@ -339,12 +339,12 @@ canvas {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 14px;
+    padding: 8px 14px;
     background-color: var(--input-bg);
     border: 1px solid var(--input-border);
     border-radius: 9999px;
-    font-size: 0.78rem;
-    min-height: 44px;
+    font-size: 0.72rem;
+    min-height: 36px;
     box-sizing: border-box;
     transition: all 0.2s;
 }

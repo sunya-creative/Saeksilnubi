@@ -2313,7 +2313,7 @@ document.addEventListener('DOMContentLoaded', () => {
         manager.regions.forEach(reg => {
             const item = document.createElement('div');
             item.className = 'layer-item';
-            item.style.cssText = `cursor: pointer; padding: 10px 14px; font-size: 0.78rem; display: flex; justify-content: space-between; align-items: center; border-radius: 9999px; transition: background-color 0.2s; box-sizing: border-box; min-height: 44px; width: 100%;`;
+            item.style.cssText = `cursor: pointer; padding: 8px 14px; font-size: 0.72rem; display: flex; justify-content: space-between; align-items: center; border-radius: 9999px; transition: background-color 0.2s; box-sizing: border-box; min-height: 36px; width: 100%;`;
             
             item.innerHTML = `
                 <span style="font-weight: 600;">${reg.name}</span>

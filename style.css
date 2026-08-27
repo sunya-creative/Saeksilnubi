@@ -85,8 +85,7 @@ body {
 }
 
 .sidebar-header {
-    padding: 18px 24px;
-    border-bottom: 1px solid var(--panel-border);
+    padding: 12px 24px 8px; /* Reduced vertical padding */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -94,7 +93,7 @@ body {
 
 .sidebar-header h1 {
     font-family: var(--font-serif);
-    font-size: 1.35rem;
+    font-size: 1.08rem; /* Reduced to 80% of 1.35rem */
     font-weight: 700;
     letter-spacing: -0.5px;
     color: var(--accent-color);
@@ -108,7 +107,7 @@ body {
 }
 
 .sidebar-content {
-    padding: 24px;
+    padding: 16px 24px 24px; /* Reduced top padding to shift content up */
     display: flex;
     flex-direction: column;
     gap: 26px;

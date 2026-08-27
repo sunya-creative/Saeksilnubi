@@ -73,7 +73,7 @@
         <aside id="left-sidebar" class="sidebar">
             <div class="sidebar-header">
                 <div>
-                    <h1>색실누비</h1>
+                    <h1>색실누비 도안 그리기</h1>
                 </div>
                 <button class="mobile-close-btn">&times;</button>
             </div>
@@ -168,7 +168,7 @@
                     </div>
 
                     <!-- 전체삭제 버튼 -->
-                    <div style="margin-top: 6px;">
+                    <div style="margin-top: 3px;">
                         <button id="tool-clear" class="btn-tool" style="width: 100%; height: 32px; min-height: 32px; font-size: 0.78rem; padding: 4px 8px; color: var(--accent-color);" title="전체 지우기">전체삭제</button>
                     </div>
                 </div>
@@ -224,14 +224,20 @@
                 </div>
                 <button class="mobile-close-btn">&times;</button>
             </div>
-            <div class="sidebar-content" style="padding-top: 99px; height: 100%; box-sizing: border-box; display: flex; flex-direction: column;">
+            <div class="sidebar-content" style="padding-top: 76px; height: 100%; box-sizing: border-box; display: flex; flex-direction: column;">
 
                 <!-- 선별 컬러 커스텀 -->
                 <div class="control-group" style="flex: 1; display: flex; flex-direction: column; min-height: 0;">
                     <!-- 일괄 변경 / 랜덤 배색 -->
                     <div style="display: flex; gap: 6px; margin-bottom: 24px; padding-bottom: 0; flex-shrink: 0;">
-                        <button id="btn-color-all" style="padding: 0; font-size: 0.88rem; flex: 1; height: 44px; display: flex; align-items: center; justify-content: center; margin: 0; border-radius: 9999px; border: none; cursor: pointer; background-color: #9e2a2b; color: #ffffff; font-weight: 600; letter-spacing: 0.02em;">일괄 변경</button>
-                        <button id="btn-color-random" style="padding: 0; font-size: 0.88rem; flex: 1; height: 44px; display: flex; align-items: center; justify-content: center; margin: 0; border-radius: 9999px; border: none; cursor: pointer; background-color: #5a6650; color: #ffffff; font-weight: 600; letter-spacing: 0.02em;">랜덤 배색</button>
+                        <button id="btn-color-all" style="padding: 8px 14px; font-size: 0.72rem; flex: 1; min-height: 36px; display: flex; justify-content: space-between; align-items: center; margin: 0; border-radius: 9999px; border: none; cursor: pointer; background-color: #9e2a2b; color: #ffffff; font-weight: 600; box-sizing: border-box;">
+                            <span>실 색상 통일</span>
+                            <span style="font-size: 0.6rem; opacity: 0.75;">변경</span>
+                        </button>
+                        <button id="btn-color-random" style="padding: 8px 14px; font-size: 0.72rem; flex: 1; min-height: 36px; display: flex; justify-content: space-between; align-items: center; margin: 0; border-radius: 9999px; border: none; cursor: pointer; background-color: #5a6650; color: #ffffff; font-weight: 600; box-sizing: border-box;">
+                            <span>실 색상 랜덤</span>
+                            <span style="font-size: 0.6rem; opacity: 0.75;">변경</span>
+                        </button>
                     </div>
 
                     <!-- 방 별로 색상지정 (신규 기능) -->
@@ -406,7 +412,7 @@
             <!-- 닫기 버튼 -->
             <button id="btn-close-guide-x" style="position: absolute; top: 18px; right: 20px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #777;">✕</button>
 
-            <h2 style="font-family: var(--font-serif); color: var(--accent-color); font-size: 1.35rem; margin-bottom: 8px; text-align: center;">색실누비 도안 만들기 순서</h2>
+            <h2 style="font-family: var(--font-serif); color: var(--accent-color); font-size: 1.35rem; margin-bottom: 8px; text-align: center;">색실누비 도안 그리기 순서</h2>
             <div style="text-align: center; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.5;">
                 [1단계] 왼쪽 화면에서 밑그림 그리기<br>
                 [2단계] 오른쪽 화면에서 실 색상 입히기<br>

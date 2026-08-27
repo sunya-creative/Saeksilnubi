@@ -145,6 +145,17 @@ body {
     margin-bottom: 0; /* 8px flex gap + 0 margin = 8px spacing */
 }
 
+/* Export PNG Button Container */
+.export-container {
+    flex-shrink: 0;
+    padding-top: 12px;
+    margin-top: auto;
+}
+
+.right-sidebar .sidebar-content {
+    padding-bottom: 12px;
+}
+
 .btn-help-hint {
     display: inline-flex;
     align-items: center;
@@ -694,8 +705,8 @@ canvas {
     }
 
     .export-container {
-        padding-top: 4px !important; /* Spacing above PNG button reduced */
-        margin-top: 12px !important; /* Spacing above PNG button reduced */
+        padding-top: 12px !important; /* Symmetric 12px spacing above PNG button */
+        margin-top: 0 !important;
     }
 
     #btn-export-png {

@@ -635,6 +635,11 @@ canvas {
         padding-top: 20px !important;
     }
     
+    /* Hide the '변경' text badges inside buttons/cards on mobile to prevent layout text wrapping */
+    .change-btn {
+        display: none !important;
+    }
+    
     .workspace {
         flex: 1;
         min-height: 0;

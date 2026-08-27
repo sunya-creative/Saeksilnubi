@@ -2317,7 +2317,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             item.innerHTML = `
                 <span style="font-weight: 600;">${reg.name}</span>
-                <span style="font-size: 0.6rem; opacity: 0.75;">변경</span>
+                <span class="change-btn" style="font-size: 0.6rem; opacity: 0.75;">변경</span>
             `;
 
             updateCardStyle(item, reg.color);

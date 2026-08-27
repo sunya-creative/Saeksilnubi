@@ -699,6 +699,7 @@ canvas {
     .right-sidebar .sidebar-content {
         padding-top: 6px !important; /* Spacing between right mobile header and first row set to 12px */
         padding-bottom: 12px !important; /* Spacing below PNG button reduced */
+        gap: 12px !important; /* Space between control-group and export-container set to 12px */
     }
 
     .right-sidebar .control-group {
@@ -706,7 +707,7 @@ canvas {
     }
 
     .export-container {
-        padding-top: 12px !important; /* Symmetric 12px spacing above PNG button */
+        padding-top: 0 !important; /* Spacing above PNG button is handled entirely by sidebar-content gap */
         margin-top: 0 !important;
     }
 

@@ -1811,6 +1811,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 <option value="A-A-B-C">A - A - B - C</option>
                 <option value="A-B-B-C">A - B - B - C</option>
                 <option value="A-B-C-C">A - B - C - C</option>
+                <option value="A-B-C-B">A - B - C - B</option>
+                <option value="A-B-B-C-B-B">A - B - B - C - B - B</option>
             `;
         } else if (count === 4) {
             patternRuleSelect.innerHTML = `

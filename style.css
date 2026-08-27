@@ -633,32 +633,37 @@ canvas {
         background-color: #f2efe9;
     }
     
-    /* Override content padding for right sidebar content on mobile */
-    .right-sidebar .sidebar-content {
-        padding-top: 20px !important;
-    }
-    
     /* Hide the '변경' text badges inside buttons/cards on mobile to prevent layout text wrapping */
     .change-btn {
         display: none !important;
     }
     
     /* Mobile-specific spacing adjustments */
+    .sidebar-header,
+    .mobile-sidebar-header {
+        padding-bottom: 6px !important;
+    }
+
     .sidebar-content {
-        gap: 16px !important; /* Spacing between [] sections reduced to 16px */
+        padding-top: 6px !important;
+        gap: 12px !important; /* Spacing between [] sections reduced to 12px */
+    }
+    
+    .right-sidebar .sidebar-content {
+        padding-top: 6px !important; /* Spacing between right mobile header and first row set to 12px */
     }
     
     .bulk-coloring-row,
     .region-coloring-box,
     .pattern-coloring-box {
-        margin-bottom: 16px !important; /* Spacing between coloring blocks reduced to 16px */
+        margin-bottom: 12px !important; /* Spacing between coloring blocks reduced to 12px */
     }
     
     .sidebar h3,
     .control-group h3,
     .region-coloring-box h3,
     .pattern-coloring-box h3 {
-        margin-bottom: 5px !important; /* Spacing directly below [] titles reduced to 5px */
+        margin-bottom: 4px !important; /* Spacing directly below [] titles reduced to 4px */
     }
     
     .workspace {

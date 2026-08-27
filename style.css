@@ -395,6 +395,11 @@ canvas {
     border-color: var(--accent-color);
 }
 
+.layer-item.drag-over {
+    transform: scale(1.03);
+    box-shadow: 0 0 8px rgba(158, 42, 43, 0.4);
+}
+
 .layer-info {
     display: flex;
     align-items: center;

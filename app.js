@@ -1348,6 +1348,66 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // =============================================
+    // 드래그 앤 드롭 색상 복사 시스템
+    // =============================================
+    let dragSourceColor = null;
+
+    // 색상 카드에 드래그 기능을 부여하는 헬퍼
+    function enableColorDrag(item) {
+        item.setAttribute('draggable', 'true');
+        item.style.userSelect = 'none';
+
+        item.addEventListener('dragstart', (e) => {
+            const bg = item.style.backgroundColor;
+            dragSourceColor = bg.startsWith('rgb') ? rgbToHex(bg) : bg;
+            e.dataTransfer.setData('text/plain', dragSourceColor);
+            e.dataTransfer.effectAllowed = 'copy';
+            item.style.opacity = '0.5';
+        });
+
+        item.addEventListener('dragend', () => {
+            item.style.opacity = '1';
+            // 드롭 영역 하이라이트 해제
+            document.querySelectorAll('.layer-item.drag-over').forEach(el => {
+                el.classList.remove('drag-over');
+                el.style.outline = '';
+                el.style.outlineOffset = '';
+            });
+        });
+
+        item.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'copy';
+            if (!item.classList.contains('drag-over')) {
+                item.classList.add('drag-over');
+                item.style.outline = '2px solid rgba(158, 42, 43, 0.6)';
+                item.style.outlineOffset = '-2px';
+            }
+        });
+
+        item.addEventListener('dragleave', () => {
+            item.classList.remove('drag-over');
+            item.style.outline = '';
+            item.style.outlineOffset = '';
+        });
+
+        item.addEventListener('drop', (e) => {
+            e.preventDefault();
+            item.classList.remove('drag-over');
+            item.style.outline = '';
+            item.style.outlineOffset = '';
+
+            const color = e.dataTransfer.getData('text/plain') || dragSourceColor;
+            if (!color) return;
+
+            // 드롭 대상에 연결된 색상 업데이트 콜백 호출
+            if (item._colorDropCallback) {
+                item._colorDropCallback(color);
+            }
+        });
+    }
+
     const toolPencil = document.getElementById('tool-pencil');
     const toolLine = document.getElementById('tool-line');
     const toolClear = document.getElementById('tool-clear');
@@ -1492,6 +1552,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
     
+    enableColorDrag(fabricColorCard);
+    fabricColorCard._colorDropCallback = (selectedColor) => {
+        updateFabricCard(selectedColor);
+    };
+
     // 초기 원단 색상 대비 가독성 렌더링
     updateFabricCard(manager.bgColor || '#fcf6f5');
 
@@ -1721,6 +1786,18 @@ document.addEventListener('DOMContentLoaded', () => {
             // 색상에 따른 텍스트 대비 반영
             updateCardStyle(item, sketchColor);
             
+            enableColorDrag(item);
+            item._colorDropCallback = (color) => {
+                updateCardStyle(item, color);
+                manager.strokeColor = color;
+                manager.strokes.forEach(stroke => {
+                    if (stroke.color !== 'eraser') {
+                        stroke.color = color;
+                    }
+                });
+                manager.render();
+            };
+            
             item.addEventListener('click', () => {
                 const currentColor = manager.strokes[0].color || manager.strokeColor;
                 openCustomColorPicker(item, currentColor, (color) => {
@@ -1769,6 +1846,17 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
 
             updateCardStyle(item, defaultColor);
+
+            enableColorDrag(item);
+            item._colorDropCallback = (color) => {
+                updateCardStyle(item, color);
+                manager.offsetPaths.forEach(path => {
+                    if (path.layerIndex === layer.index) {
+                        path.color = color;
+                    }
+                });
+                manager.render();
+            };
 
             item.addEventListener('click', () => {
                 const currentColor = layer.paths[0].color || '#9e2a2b';
@@ -1899,6 +1987,35 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCardStyle(threadColorCEl, threadColorC);
     updateCardStyle(threadColorDEl, threadColorD);
     updateCardStyle(threadColorEEl, threadColorE);
+
+    // 실 색상 카드에 드래그 앤 드롭 활성화
+    enableColorDrag(threadColorAEl);
+    enableColorDrag(threadColorBEl);
+    enableColorDrag(threadColorCEl);
+    enableColorDrag(threadColorDEl);
+    enableColorDrag(threadColorEEl);
+
+    threadColorAEl._colorDropCallback = (color) => {
+        threadColorA = color;
+        updateCardStyle(threadColorAEl, color);
+    };
+    threadColorBEl._colorDropCallback = (color) => {
+        threadColorB = color;
+        updateCardStyle(threadColorBEl, color);
+    };
+    threadColorCEl._colorDropCallback = (color) => {
+        threadColorC = color;
+        updateCardStyle(threadColorCEl, color);
+    };
+    threadColorDEl._colorDropCallback = (color) => {
+        threadColorD = color;
+        updateCardStyle(threadColorDEl, color);
+    };
+    threadColorEEl._colorDropCallback = (color) => {
+        threadColorE = color;
+        updateCardStyle(threadColorEEl, color);
+    };
+
     updateThreadCountUI(2); // 기본 2색 활성화 (좌우 2열 배치)
     // 사용방법 가이드 모달 이벤트 핸들러
     const guideModal = document.getElementById('guide-modal');
@@ -2023,6 +2140,27 @@ document.addEventListener('DOMContentLoaded', () => {
             updateLayerListUI();
         });
     });
+
+    enableColorDrag(btnColorAll);
+    btnColorAll._colorDropCallback = (selectedColor) => {
+        if (manager.offsetPaths.length === 0 && manager.strokes.length === 0) return;
+        manager.offsetPaths.forEach(path => {
+            path.color = selectedColor;
+        });
+        manager.strokeColor = selectedColor;
+        manager.strokes.forEach(stroke => {
+            if (stroke.color !== 'eraser') {
+                stroke.color = selectedColor;
+            }
+        });
+        if (manager.regions) {
+            manager.regions.forEach(reg => reg.color = selectedColor);
+            updateRegionListUI();
+        }
+        updateCardStyle(btnColorAll, selectedColor);
+        manager.render();
+        updateLayerListUI();
+    };
 
     if (btnColorRainbow) {
         btnColorRainbow.addEventListener('click', () => {
@@ -2352,6 +2490,39 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
 
             updateCardStyle(item, reg.color);
+
+            enableColorDrag(item);
+            item._colorDropCallback = (selectedColor) => {
+                reg.color = selectedColor;
+                updateCardStyle(item, selectedColor);
+
+                if (manager.offsetPaths) {
+                    manager.offsetPaths.forEach(path => {
+                        if (path.points && path.points.length > 0) {
+                            const midPt = path.points[Math.floor(path.points.length / 2)];
+                            const r = manager.getRegionAtPixel ? manager.getRegionAtPixel(midPt.x, midPt.y) : null;
+                            if (r && r.id === reg.id) {
+                                path.color = selectedColor;
+                            }
+                        }
+                    });
+                }
+
+                if (manager.strokes) {
+                    manager.strokes.forEach(stroke => {
+                        if (stroke.color !== 'eraser' && stroke.segments.length > 0) {
+                            const midSeg = stroke.segments[Math.floor(stroke.segments.length / 2)];
+                            const r = manager.getRegionAtPixel ? manager.getRegionAtPixel((midSeg.x1 + midSeg.x2) / 2, (midSeg.y1 + midSeg.y2) / 2) : null;
+                            if (r && r.id === reg.id) {
+                                stroke.color = selectedColor;
+                            }
+                        }
+                    });
+                }
+
+                manager.render();
+                updateLayerListUI();
+            };
 
             item.addEventListener('click', () => {
                 openCustomColorPicker(item, reg.color, (selectedColor) => {

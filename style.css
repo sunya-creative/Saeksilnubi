@@ -148,11 +148,12 @@ body {
 /* Export PNG Button Container */
 .export-container {
     flex-shrink: 0;
-    padding-top: 12px;
+    padding-top: 0;
     margin-top: auto;
 }
 
 .right-sidebar .sidebar-content {
+    gap: 12px;
     padding-bottom: 12px;
 }
 

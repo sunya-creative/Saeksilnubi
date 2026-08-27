@@ -583,7 +583,8 @@ canvas {
         left: 0;
         top: 0;
         width: 60%; /* Occupy up to 60% of screen width on mobile */
-        height: 100%;
+        height: 100vh;
+        height: 100dvh;
         transform: translateX(-100%);
         box-shadow: none; /* Disable shadow on mobile when inactive to prevent border lines */
         z-index: 110;
@@ -660,6 +661,9 @@ canvas {
     .sidebar-content {
         padding-top: 6px !important;
         gap: 18px !important; /* Spacing between [] sections set to 18px on mobile */
+        height: auto !important;
+        flex: 1 !important;
+        min-height: 0 !important;
     }
     
     .right-sidebar .sidebar-content {

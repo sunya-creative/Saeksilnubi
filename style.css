@@ -110,7 +110,7 @@ body {
     padding: 16px 24px 24px; /* Reduced top padding to shift content up */
     display: flex;
     flex-direction: column;
-    gap: 24px; /* Set desktop spacing between [] sections to 24px */
+    gap: 30px; /* Set desktop spacing between [] sections to 30px */
     flex-grow: 1;
 }
 
@@ -656,7 +656,7 @@ canvas {
     .bulk-coloring-row,
     .region-coloring-box,
     .pattern-coloring-box {
-        margin-bottom: 18px !important; /* Spacing between coloring blocks set to 18px on mobile */
+        margin-bottom: 8px !important; /* Spacing between coloring blocks set to 18px (8px + 10px gap) on mobile */
     }
     
     .sidebar h3,

@@ -2133,94 +2133,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // PNG pHYs chunk insertion for physical printing dimensions (DPI/centimeters)
-    const crcTable = [];
-    for (let n = 0; n < 256; n++) {
-        let c = n;
-        for (let k = 0; k < 8; k++) {
-            if (c & 1) {
-                c = 0xedb88320 ^ (c >>> 1);
-            } else {
-                c = c >>> 1;
-            }
-        }
-        crcTable[n] = c;
-    }
-
-    function calculateCrc(bytes) {
-        let crc = 0xffffffff;
-        for (let i = 0; i < bytes.length; i++) {
-            crc = crcTable[(crc ^ bytes[i]) & 0xff] ^ (crc >>> 8);
-        }
-        return (crc ^ 0xffffffff) >>> 0;
-    }
-
-    function getPngWithDpi(dataUrl, widthCm, heightCm, pixelsX, pixelsY) {
-        const base64Data = dataUrl.split(',')[1];
-        const binaryString = window.atob(base64Data);
-        const len = binaryString.length;
-        const bytes = new Uint8Array(len);
-        for (let i = 0; i < len; i++) {
-            bytes[i] = binaryString.charCodeAt(i);
-        }
-
-        // Calculate pixels per meter
-        const ppmX = Math.round((pixelsX / widthCm) * 100);
-        const ppmY = Math.round((pixelsY / heightCm) * 100);
-
-        // Build pHYs chunk
-        const lengthBytes = [0, 0, 0, 9];
-        const typeBytes = [0x70, 0x48, 0x79, 0x53]; // 'pHYs'
-        const dataBytes = [
-            (ppmX >>> 24) & 0xff,
-            (ppmX >>> 16) & 0xff,
-            (ppmX >>> 8) & 0xff,
-            ppmX & 0xff,
-            (ppmY >>> 24) & 0xff,
-            (ppmY >>> 16) & 0xff,
-            (ppmY >>> 8) & 0xff,
-            ppmY & 0xff,
-            1 // Unit: meter
-        ];
-
-        const crcTarget = new Uint8Array([...typeBytes, ...dataBytes]);
-        const crc = calculateCrc(crcTarget);
-        const crcBytes = [
-            (crc >>> 24) & 0xff,
-            (crc >>> 16) & 0xff,
-            (crc >>> 8) & 0xff,
-            crc & 0xff
-        ];
-
-        const chunkBytes = new Uint8Array([
-            ...lengthBytes,
-            ...typeBytes,
-            ...dataBytes,
-            ...crcBytes
-        ]);
-
-        // Insert pHYs chunk right after IHDR chunk (always at index 33 in standard PNGs)
-        const resultBytes = new Uint8Array(bytes.length + 21);
-        resultBytes.set(bytes.subarray(0, 33), 0);
-        resultBytes.set(chunkBytes, 33);
-        resultBytes.set(bytes.subarray(33), 33 + 21);
-
-        return new Blob([resultBytes], { type: 'image/png' });
-    }
-
     btnExportPng.addEventListener('click', () => {
         manager.render();
-        const dataUrl = manager.canvas.toDataURL('image/png');
-        const blob = getPngWithDpi(dataUrl, manager.widthCm, manager.heightCm, manager.canvas.width, manager.canvas.height);
-        const url = URL.createObjectURL(blob);
 
-        const link = document.createElement('a');
-        link.download = `saeksilnubi_pattern_${manager.widthCm}x${manager.heightCm}.png`;
-        link.href = url;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
+        // Calculate DPI for print reference (pixels / cm * 2.54 = DPI)
+        const dpi = Math.round((manager.canvas.width / manager.widthCm) * 2.54);
+
+        manager.canvas.toBlob((blob) => {
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.download = `saeksilnubi_${manager.widthCm}x${manager.heightCm}cm_${dpi}dpi.png`;
+            link.href = url;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }, 'image/png');
     });
 
     // ==========================================

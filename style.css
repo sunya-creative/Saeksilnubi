@@ -110,7 +110,7 @@ body {
     padding: 16px 24px 24px; /* Reduced top padding to shift content up */
     display: flex;
     flex-direction: column;
-    gap: 26px;
+    gap: 18px; /* Reduced to 70% of 26px to bring sections closer */
     flex-grow: 1;
 }
 

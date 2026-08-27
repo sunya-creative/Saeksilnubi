@@ -1333,7 +1333,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const toolPencil = document.getElementById('tool-pencil');
     const toolLine = document.getElementById('tool-line');
-    const toolEraser = document.getElementById('tool-eraser');
     const toolClear = document.getElementById('tool-clear');
 
     const btnUndo = document.getElementById('btn-undo');
@@ -1481,8 +1480,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const tools = [
         { btn: toolPencil, type: 'pencil' },
-        { btn: toolLine, type: 'line' },
-        { btn: toolEraser, type: 'eraser' }
+        { btn: toolLine, type: 'line' }
     ];
 
     tools.forEach(tool => {
@@ -1505,32 +1503,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     btnRedo.addEventListener('click', () => {
-        if (confirm('처음 만든 원단 상태로 돌아가시겠습니까? 모든 작업 내용이 초기화됩니다.')) {
-            // 원단 설정 초기값으로 복원
-            canvasWidthInput.value = 16;
-            canvasHeightInput.value = 10;
-            updateCanvasSize();
-            updateFabricCard('#fcf6f5');
-            
-            // 그리기 상태 및 도구 초기화
-            manager.clear();
-            manager.regions = [];
-            manager.getRegionAtPixel = null;
-            
-            tools.forEach(t => t.btn.classList.remove('active'));
-            toolLine.classList.add('active');
-            manager.setTool('line');
-            
-            snapHVInput.checked = true;
-            manager.snapHV = true;
-            
-            symmetryEnable.checked = false;
-            updateSymmetryConfig();
-            
-            // UI 업데이트
-            updateLayerListUI();
-            updateRegionListUI();
-        }
+        manager.redo();
     });
 
     // 수직/수평 그리기 스냅 체크박스 이벤트 바인딩 및 초기화
@@ -2083,16 +2056,16 @@ document.addEventListener('DOMContentLoaded', () => {
     btnZoomReset.addEventListener('click', () => {
         fitCanvasToScreen();
     });
+
     function fitCanvasToScreen() {
         const isMobile = window.innerWidth <= 768;
-        // On mobile, subtract a much smaller margin (e.g. 16px total) to let the canvas occupy ~92% of the space
+        // On mobile, let the canvas occupy up to 90% of the screen space to prevent swiping gestures
         const workspaceW = isMobile 
-            ? manager.container.parentElement.clientWidth - 16 
+            ? manager.container.parentElement.clientWidth * 0.90 
             : manager.container.parentElement.clientWidth - 80;
         const workspaceH = isMobile 
-            ? manager.container.parentElement.clientHeight - 16 
+            ? manager.container.parentElement.clientHeight * 0.90 
             : manager.container.parentElement.clientHeight - 80;
-            
         const canvasW = manager.widthCm * manager.pixelScale;
         const canvasH = manager.heightCm * manager.pixelScale;
 

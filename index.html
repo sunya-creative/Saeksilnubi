@@ -74,7 +74,6 @@
             <div class="sidebar-header">
                 <div>
                     <h1>색실누비</h1>
-                    <div class="subtitle">Saeksilnubi Pattern Studio</div>
                 </div>
                 <button class="mobile-close-btn">&times;</button>
             </div>
@@ -162,14 +161,15 @@
                         </div>
                     </div>
 
-                    <!-- 지우개 및 전체삭제 버튼 -->
+                    <!-- 실행취소 및 다시실행 버튼 -->
                     <div class="tool-grid" style="margin-top: 10px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px;">
-                        <button id="tool-eraser" class="btn-tool" style="height: 32px; min-height: 32px; font-size: 0.78rem; padding: 4px 8px;" title="지우개">
-                            지우개
-                        </button>
-                        <button id="tool-clear" class="btn-tool" style="height: 32px; min-height: 32px; font-size: 0.78rem; padding: 4px 8px; color: var(--accent-color);" title="전체 지우기">
-                            전체삭제
-                        </button>
+                        <button id="btn-undo" class="btn-tool" style="height: 32px; min-height: 32px; font-size: 0.78rem; padding: 4px 8px;" title="되돌리기">실행취소</button>
+                        <button id="btn-redo" class="btn-tool" style="height: 32px; min-height: 32px; font-size: 0.78rem; padding: 4px 8px;" title="다시실행">다시실행</button>
+                    </div>
+
+                    <!-- 전체삭제 버튼 -->
+                    <div style="margin-top: 6px;">
+                        <button id="tool-clear" class="btn-tool" style="width: 100%; height: 32px; min-height: 32px; font-size: 0.78rem; padding: 4px 8px; color: var(--accent-color);" title="전체 지우기">전체삭제</button>
                     </div>
                 </div>
 
@@ -196,13 +196,7 @@
                     </div>
                 </div>
 
-                <!-- 스케치 실행취소/다시실행 -->
-                <div style="margin-top: auto; padding-top: 10px;">
-                    <div class="row-inputs" style="gap: 6px;">
-                        <button id="btn-undo" class="btn-tool" style="padding: 12px 10px; font-size: 0.88rem; flex: 1; height: 44px; font-weight: 600; justify-content: center;" title="되돌리기">실행취소</button>
-                        <button id="btn-redo" class="btn-tool" style="padding: 12px 10px; font-size: 0.88rem; flex: 1; height: 44px; font-weight: 600; justify-content: center;" title="다시실행">다시실행</button>
-                    </div>
-                </div>
+
             </div>
         </aside>
 
@@ -227,7 +221,6 @@
             <div class="mobile-sidebar-header">
                 <div>
                     <h1 style="font-family: var(--font-serif); font-size: 1.35rem; font-weight: 700; color: var(--accent-color);">실 색상 설정</h1>
-                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px;">Pattern Thread Colors</div>
                 </div>
                 <button class="mobile-close-btn">&times;</button>
             </div>
@@ -437,7 +430,7 @@
                         • <strong>직선 / 자유곡선</strong>: <strong>[직선]</strong>은 반듯한 선, <strong>[자유곡선]</strong>은 부드러운 곡선을 그릴 수 있습니다.<br>
                         • <strong>직선 바르게 그리기</strong>: 이 상자에 체크(v)하시면, 가로·세로·대각선이 반듯하게 그려집니다.<br>
                         • <strong>방사 대칭으로 그리기</strong>: 체크(v) 후 선 개수를 고르면, 꽃 모양이나 별 모양처럼 등간격의 선을 동시에 그릴 수 있습니다.<br>
-                        • <strong>지우개 / 전체삭제</strong>: 잘못 그린 부분은 <strong>[지우개]</strong>로 부분적으로 지우거나, <strong>[전체삭제]</strong>를 눌러 처음부터 다시 그리실 수 있습니다.
+                        • <strong>전체삭제</strong>: 그린 도안을 지우고 처음부터 다시 그리려면 <strong>[전체삭제]</strong>를 누릅니다.
                     </div>
 
                     <div>

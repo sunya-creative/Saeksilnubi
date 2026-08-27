@@ -2030,10 +2030,7 @@ document.addEventListener('DOMContentLoaded', () => {
             path.color = selectedColors[path.layerIndex];
         });
 
-        // 랜덤 배색 버튼 배경을 첫 번째 랜덤 컬러로 갱신
-        if (selectedColors.length > 0) {
-            updateCardStyle(btnColorRandom, selectedColors[0]);
-        }
+
 
         manager.render();
         updateLayerListUI();

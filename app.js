@@ -1116,6 +1116,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const customColorPicker = document.getElementById('custom-color-picker');
     const pickerPresets = document.getElementById('picker-presets');
     const pickerHue = document.getElementById('picker-hue');
+    const pickerSaturation = document.getElementById('picker-saturation');
     const pickerLightness = document.getElementById('picker-lightness');
     const pickerPreview = document.getElementById('picker-preview');
     const pickerApplyBtn = document.getElementById('picker-apply-btn');
@@ -1160,10 +1161,10 @@ document.addEventListener('DOMContentLoaded', () => {
         return { h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100) };
     }
 
-    // HSL -> HEX 계산기 (채도는 고밀도 누비 땀을 위해 선명도 85% 고정으로 통일하여 최적화)
+    // HSL -> HEX 계산기 (채도값을 슬라이더에서 실시간 반영)
     function hslToHex(h, s, l) {
         l /= 100;
-        const a = (85 * Math.min(l, 1 - l)) / 100;
+        const a = (s * Math.min(l, 1 - l)) / 100;
         const f = n => {
             const k = (n + h / 30) % 12;
             const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
@@ -1292,7 +1293,11 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const hsl = hexToHsl(color);
         pickerHue.value = hsl.h;
+        pickerSaturation.value = hsl.s;
         pickerLightness.value = hsl.l;
+
+        // 채도 바 그라디언트를 현재 색상/명도에 맞게 업데이트
+        updateSaturationBarGradient(hsl.h, hsl.l);
 
         // 가운데 창(캔버스)에 실시간 색상 피드백 반영!
         if (activePickerCallback) {
@@ -1300,13 +1305,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // 채도 바 그라디언트 동적 업데이트 (현재 Hue/Lightness에 맞춰 회색 ~ 선명한 색으로 표시)
+    function updateSaturationBarGradient(h, l) {
+        const grayColor = hslToHex(h, 0, l);
+        const fullColor = hslToHex(h, 100, l);
+        pickerSaturation.style.background = `linear-gradient(to right, ${grayColor} 0%, ${fullColor} 100%)`;
+    }
+
     // 슬라이더 조절 핸들러
     const onSliderChange = () => {
         const h = parseInt(pickerHue.value);
+        const s = parseInt(pickerSaturation.value);
         const l = parseInt(pickerLightness.value);
-        const color = hslToHex(h, 85, l);
+        const color = hslToHex(h, s, l);
         activePickerColor = color;
         pickerPreview.style.backgroundColor = color;
+
+        // 채도 바 그라디언트를 현재 색상/명도에 맞게 업데이트
+        updateSaturationBarGradient(h, l);
 
         // 가운데 창(캔버스)에 실시간 색상 피드백 반영!
         if (activePickerCallback) {
@@ -1315,6 +1331,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     pickerHue.addEventListener('input', onSliderChange);
+    pickerSaturation.addEventListener('input', onSliderChange);
     pickerLightness.addEventListener('input', onSliderChange);
 
     pickerApplyBtn.addEventListener('click', () => {

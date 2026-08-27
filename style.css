@@ -110,7 +110,7 @@ body {
     padding: 16px 24px 24px; /* Reduced top padding to shift content up */
     display: flex;
     flex-direction: column;
-    gap: 22px; /* Set desktop spacing between [] sections to 22px */
+    gap: 24px; /* Set desktop spacing between [] sections to 24px */
     flex-grow: 1;
 }
 

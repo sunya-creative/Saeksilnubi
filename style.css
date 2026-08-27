@@ -110,7 +110,7 @@ body {
     padding: 16px 24px 24px; /* Reduced top padding to shift content up */
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 22px; /* Set desktop spacing between [] sections to 22px */
     flex-grow: 1;
 }
 
@@ -646,7 +646,7 @@ canvas {
 
     .sidebar-content {
         padding-top: 6px !important;
-        gap: 12px !important; /* Spacing between [] sections reduced to 12px */
+        gap: 18px !important; /* Spacing between [] sections set to 18px on mobile */
     }
     
     .right-sidebar .sidebar-content {
@@ -656,7 +656,7 @@ canvas {
     .bulk-coloring-row,
     .region-coloring-box,
     .pattern-coloring-box {
-        margin-bottom: 12px !important; /* Spacing between coloring blocks reduced to 12px */
+        margin-bottom: 18px !important; /* Spacing between coloring blocks set to 18px on mobile */
     }
     
     .sidebar h3,

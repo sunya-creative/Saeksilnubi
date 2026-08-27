@@ -597,14 +597,14 @@ canvas {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 16px 20px;
-        border-bottom: 1px solid var(--panel-border);
+        padding: 12px 24px 8px; /* Same padding as left header */
+        border-bottom: none; /* Removed border bottom */
         background-color: #ffffff;
     }
     
     .mobile-sidebar-header h1 {
         font-family: var(--font-serif);
-        font-size: 1.25rem;
+        font-size: 1.19rem; /* Same font size as left header h1 */
         font-weight: 700;
         color: var(--accent-color);
     }

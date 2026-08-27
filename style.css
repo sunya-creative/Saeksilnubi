@@ -663,7 +663,7 @@ canvas {
     .control-group h3,
     .region-coloring-box h3,
     .pattern-coloring-box h3 {
-        margin-bottom: 8px !important; /* Spacing directly below [] titles set to 8px */
+        margin-bottom: 6px !important; /* Spacing directly below [] titles set to 6px on mobile */
     }
     
     .workspace {

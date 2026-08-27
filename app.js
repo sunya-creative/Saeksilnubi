@@ -1819,11 +1819,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 <option value="A-B-C-D">A - B - C - D (순차)</option>
                 <option value="A-A-B-C-D">A - A - B - C - D</option>
                 <option value="A-B-B-C-D">A - B - B - C - D</option>
+                <option value="A-B-C-C-D">A - B - C - C - D</option>
                 <option value="A-B-C-D-D">A - B - C - D - D</option>
+                <option value="A-B-C-D-C-B">A - B - C - D - C - B</option>
             `;
         } else if (count === 5) {
             patternRuleSelect.innerHTML = `
                 <option value="A-B-C-D-E">A - B - C - D - E (순차)</option>
+                <option value="A-B-C-D-E-D-C-B">A - B - C - D - E - D - C - B</option>
+                <option value="A-B-C-D-E-B-C-D">A - B - C - D - E - B - C - D</option>
                 <option value="A-A-B-C-D-E">A - A - B - C - D - E</option>
                 <option value="A-B-C-D-E-E">A - B - C - D - E - E</option>
             `;

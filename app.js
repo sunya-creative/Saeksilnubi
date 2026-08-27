@@ -1696,7 +1696,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             item.innerHTML = `
                 <div class="layer-info">
-                    <span style="font-weight: 500;">원본 스케치선</span>
+                    <span style="font-weight: 500;">스케치선</span>
                 </div>
                 <span class="change-btn" style="font-size: 0.75rem; opacity: 0.8; font-weight: 400;">변경</span>
             `;

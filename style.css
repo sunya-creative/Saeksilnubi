@@ -163,6 +163,12 @@ body {
     padding-right: 4px;
 }
 
+.individual-coloring-box {
+    flex: none !important;
+    height: auto !important;
+    display: block !important;
+}
+
 .btn-help-hint {
     display: inline-flex;
     align-items: center;

@@ -230,11 +230,11 @@
                 <div class="control-group" style="flex: 1; display: flex; flex-direction: column; min-height: 0;">
                     <!-- 일괄 변경 / 랜덤 배색 -->
                     <div style="display: flex; gap: 6px; margin-bottom: 24px; padding-bottom: 0; flex-shrink: 0;">
-                        <button id="btn-color-all" style="padding: 8px 14px; font-size: 0.72rem; flex: 1; min-height: 36px; display: flex; justify-content: space-between; align-items: center; margin: 0; border-radius: 9999px; border: none; cursor: pointer; background-color: #9e2a2b; color: #ffffff; font-weight: 600; box-sizing: border-box;">
+                        <button id="btn-color-all" style="padding: 10px 14px; font-size: 0.78rem; flex: 1; min-height: 44px; display: flex; justify-content: space-between; align-items: center; margin: 0; border-radius: 9999px; border: none; cursor: pointer; background-color: #9e2a2b; color: #ffffff; font-weight: 600; box-sizing: border-box;">
                             <span>실 색상 통일</span>
                             <span class="change-btn" style="font-size: 0.6rem; opacity: 0.75;">변경</span>
                         </button>
-                        <button id="btn-color-random" style="padding: 8px 14px; font-size: 0.72rem; flex: 1; min-height: 36px; display: flex; justify-content: space-between; align-items: center; margin: 0; border-radius: 9999px; border: none; cursor: pointer; background: linear-gradient(135deg, #b83b5e 0%, #e35d5b 45%, #f1a94e 100%); color: #ffffff; font-weight: 600; box-sizing: border-box; text-shadow: 0 1px 1px rgba(0,0,0,0.15);">
+                        <button id="btn-color-random" style="padding: 10px 14px; font-size: 0.78rem; flex: 1; min-height: 44px; display: flex; justify-content: space-between; align-items: center; margin: 0; border-radius: 9999px; border: none; cursor: pointer; background: linear-gradient(135deg, #b83b5e 0%, #e35d5b 45%, #f1a94e 100%); color: #ffffff; font-weight: 600; box-sizing: border-box; text-shadow: 0 1px 1px rgba(0,0,0,0.15);">
                             <span>실 색상 랜덤</span>
                             <span class="change-btn" style="font-size: 0.6rem; opacity: 0.85;">변경</span>
                         </button>
@@ -268,25 +268,25 @@
                         
                         <!-- 실 색상 카드 버튼 (5색까지 확장, 가로 배치 최적화) -->
                         <div id="thread-colors-wrapper" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px; margin-bottom: 10px;">
-                            <div id="thread-color-a" class="layer-item" style="background-color: #9e2a2b; color: #ffffff; cursor: pointer; flex: 1; min-width: 65px; padding: 8px 12px; font-size: 0.72rem; display: flex; justify-content: space-between; align-items: center; transition: background-color 0.2s; box-sizing: border-box;">
+                            <div id="thread-color-a" class="layer-item" style="background-color: #9e2a2b; color: #ffffff; cursor: pointer; flex: 1; min-width: 65px;">
                                 <span style="font-weight: 600;">실 A</span>
-                                <span style="font-size: 0.6rem; opacity: 0.75;">변경</span>
+                                <span class="change-btn" style="font-size: 0.6rem; opacity: 0.75;">변경</span>
                             </div>
-                            <div id="thread-color-b" class="layer-item" style="background-color: #c3bfd8; color: #3d3a34; cursor: pointer; flex: 1; min-width: 65px; padding: 8px 12px; font-size: 0.72rem; display: flex; justify-content: space-between; align-items: center; transition: background-color 0.2s; box-sizing: border-box;">
+                            <div id="thread-color-b" class="layer-item" style="background-color: #c3bfd8; color: #3d3a34; cursor: pointer; flex: 1; min-width: 65px;">
                                 <span style="font-weight: 600;">실 B</span>
-                                <span style="font-size: 0.6rem; opacity: 0.75;">변경</span>
+                                <span class="change-btn" style="font-size: 0.6rem; opacity: 0.75;">변경</span>
                             </div>
-                            <div id="thread-color-c" class="layer-item" style="background-color: #3a5a40; color: #ffffff; cursor: pointer; flex: 1; min-width: 65px; padding: 8px 12px; font-size: 0.72rem; display: none; justify-content: space-between; align-items: center; transition: background-color 0.2s; box-sizing: border-box;">
+                            <div id="thread-color-c" class="layer-item" style="background-color: #3a5a40; color: #ffffff; cursor: pointer; flex: 1; min-width: 65px; display: none;">
                                 <span style="font-weight: 600;">실 C</span>
-                                <span style="font-size: 0.6rem; opacity: 0.75;">변경</span>
+                                <span class="change-btn" style="font-size: 0.6rem; opacity: 0.75;">변경</span>
                             </div>
-                            <div id="thread-color-d" class="layer-item" style="background-color: #3a506b; color: #ffffff; cursor: pointer; flex: 1; min-width: 65px; padding: 8px 12px; font-size: 0.72rem; display: none; justify-content: space-between; align-items: center; transition: background-color 0.2s; box-sizing: border-box;">
+                            <div id="thread-color-d" class="layer-item" style="background-color: #3a506b; color: #ffffff; cursor: pointer; flex: 1; min-width: 65px; display: none;">
                                 <span style="font-weight: 600;">실 D</span>
-                                <span style="font-size: 0.6rem; opacity: 0.75;">변경</span>
+                                <span class="change-btn" style="font-size: 0.6rem; opacity: 0.75;">변경</span>
                             </div>
-                            <div id="thread-color-e" class="layer-item" style="background-color: #d9a05b; color: #ffffff; cursor: pointer; flex: 1; min-width: 65px; padding: 8px 12px; font-size: 0.72rem; display: none; justify-content: space-between; align-items: center; transition: background-color 0.2s; box-sizing: border-box;">
+                            <div id="thread-color-e" class="layer-item" style="background-color: #d9a05b; color: #ffffff; cursor: pointer; flex: 1; min-width: 65px; display: none;">
                                 <span style="font-weight: 600;">실 E</span>
-                                <span style="font-size: 0.6rem; opacity: 0.75;">변경</span>
+                                <span class="change-btn" style="font-size: 0.6rem; opacity: 0.75;">변경</span>
                             </div>
                         </div>
 
